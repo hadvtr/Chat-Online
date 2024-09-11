@@ -1,11 +1,16 @@
-
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataOutputStream;
+
 import javax.swing.*;
 
 public class Server extends JFrame implements ActionListener{
-	
-	/**
+	JTextField text; //obter o texto que o usuário digitou
+    JPanel a1; //funciona como um conteiner que organizar a interface gráfica
+    static JFrame f = new JFrame(); //definindo a janela principal
+    static DataOutputStream dout;
+    static Box vertical = Box.createVerticalBox();
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -120,12 +125,43 @@ public class Server extends JFrame implements ActionListener{
 		
 	}
 	
-	
+	/*Recebe a ação do usuário, atualiza a interface e envia o texto digitado.*/
 	public void actionPerfomed(ActionEvent action) {
-		
+		try {
+			String out = text.getText();
+			
+			JPanel p2 = formatLabel(out); //criando um painel com base no texto recebido
+			
+			//layout do painel
+			a1.setLayout(new BorderLayout());
+			JPanel right = new JPanel(new BorderLayout());
+			right.add(p2, BorderLayout.LINE_END);
+	        vertical.add(right);
+	        vertical.add(Box.createVerticalStrut(15));
+	        
+	        a1.add(vertical, BorderLayout.PAGE_START);
+
+	        //texto que é armazenado em out é enviado para o seu destino através do dout
+	        dout.writeUTF(out);
+
+	        //limpando o campo do texto
+	        text.setText("");
+
+	        //atualizando a interface gráfica
+	        f.repaint();
+	        f.invalidate();
+	        f.validate();   	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
+	private JPanel formatLabel(String out) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**A main está sendo utilizada para instanciar o Servidor, que é uma aplicação/servico
 	 * que deve está disponivel a todo momento para realizar a comunicação entre os seus clientes
 	 * */
@@ -136,3 +172,4 @@ public class Server extends JFrame implements ActionListener{
 	}
 
 }
+
