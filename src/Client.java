@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.util.*;
 import java.text.*;
 
-public class Server extends JFrame implements ActionListener{
+public class Client extends JFrame implements ActionListener{
 	JTextField text; //obter o texto que o usuário digitou
     JPanel a1; //funciona como um conteiner que organizar a interface gráfica
     //static JFrame f = new JFrame(); //definindo a janela principal
@@ -18,7 +18,7 @@ public class Server extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	Server() {
+	Client() {
 		
 		setLayout(null);
 		
@@ -47,7 +47,7 @@ public class Server extends JFrame implements ActionListener{
 		
 		
 		//Segunda Imagem
-		ImageIcon i4 = new ImageIcon(ClassLoader.getSystemResource("icons/1.png"));
+		ImageIcon i4 = new ImageIcon(ClassLoader.getSystemResource("icons/2.png"));
 		Image i5 = i4.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		ImageIcon i6 = new ImageIcon(i5);
 		
@@ -85,7 +85,7 @@ public class Server extends JFrame implements ActionListener{
 		pl.add(morevert);
 		
 		//Adicionando nome do usuario ao painel
-		JLabel name = new JLabel("Dassu");
+		JLabel name = new JLabel("Hadassa");
 		name.setBounds(110, 15, 100, 18);
 		name.setForeground(Color.WHITE);
 		name.setFont(new Font("SAN SERIF", Font.BOLD, 18));
@@ -199,7 +199,7 @@ public class Server extends JFrame implements ActionListener{
 	 * */
 	public static void main(String [] args) {
 		
-		new Server();
+		new Client();
 		
 	}
 
@@ -207,4 +207,3 @@ public class Server extends JFrame implements ActionListener{
 
 	
 }
-
