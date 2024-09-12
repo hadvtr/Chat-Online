@@ -1,8 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
-
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class Server extends JFrame implements ActionListener{
 	JTextField text; //obter o texto que o usuário digitou
@@ -159,7 +161,34 @@ public class Server extends JFrame implements ActionListener{
 	
 	private JPanel formatLabel(String out) {
 		// TODO Auto-generated method stub
-		return null;
+		JPanel panel = new JPanel();
+		//configurando o layout para o boxlayout na vertical
+		panel.setLayout(new BoxLayout(panel, Box.Layout.Y_AXIS));
+		
+		//criação de um JLabel para exibir o texto
+		JLabel output = new JLabel("<html><p style=\"width: 150px\">"+out+"</p></html>");
+		//configurações do design
+		output.setFont(new Font("Tahoma", Font.PLAIN,16));
+		output.setBackground(new Color(37,211,102));
+		output.setOpaque(true);
+		output.setBorder(new EmptyBorder(15,15,15,50));
+		
+		//adicionando o JLabel ao JPanel
+		panel.add(output);
+		
+		//criação de um calendario para obter a hora atual
+		Calendar cal = Calendar.getInstance();
+		//criação de um SimpleDateFormat para formatar a hora
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		
+		//exibindo a hora atual
+		JLabel time = new JLabel();
+		time.setText(sdf.format(cal.getTime()));
+		
+		//adição do JLabel com a hora do JPanel
+		panel.add(time);
+		
+		return panel;
 	}
 
 	/**A main está sendo utilizada para instanciar o Servidor, que é uma aplicação/servico
