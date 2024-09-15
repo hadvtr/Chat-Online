@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.Socket;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -9,8 +11,8 @@ import java.text.*;
 
 public class Client extends JFrame implements ActionListener{
 	JTextField text; //obter o texto que o usuário digitou
-    JPanel a1; //funciona como um conteiner que organizar a interface gráfica
-    //static JFrame f = new JFrame(); //definindo a janela principal
+    static JPanel a1; //funciona como um conteiner que organizar a interface gráfica
+    static JFrame f = new JFrame(); //definindo a janela principal
     static DataOutputStream dout;
     static Box vertical = Box.createVerticalBox();
     /**
@@ -201,9 +203,32 @@ public class Client extends JFrame implements ActionListener{
 		
 		new Client();
 		
+		try {
+			Socket s = new Socket ("127.0.0.1",6001);
+			//lendo dados enviados pelo servidor
+			DataInputStream din = new DataInputStream(s.getInputStream());
+			//enviar dados ao servidor 
+			dout = new DataOutputStream(s.getOutputStream());
+			//cliente recebendo mensagens do servidor 
+			while(true) {
+				a1.setLayout(new BorderLayout());
+				//ler a mensagem em UTF
+				String msg = din.readUTF();
+				//transforma a mensagem em JPanel
+				JPanel panel = formatLabel(msg);
+				//layout 
+				JPanel left = new JPanel(new BorderLayout());
+				left.add(panel, BorderLayout.LINE_START);
+				vertical.add(left);
+				
+				vertical.add(Box.createVerticalStrut(15));
+				a1.add(vertical, BorderLayout.PAGE_START);
+				
+				f.validate();
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
 	}
-
-	
-
-	
 }
