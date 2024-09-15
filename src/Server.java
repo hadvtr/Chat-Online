@@ -1,23 +1,25 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.util.*;
-import java.text.*;
 
 public class Server extends JFrame implements ActionListener{
 	JTextField text; //obter o texto que o usuário digitou
     JPanel a1; //funciona como um conteiner que organizar a interface gráfica
-    //static JFrame f = new JFrame(); //definindo a janela principal
+    static JFrame f = new JFrame(); //definindo a janela principal
     static DataOutputStream dout;
     static Box vertical = Box.createVerticalBox();
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	Server() {
 		
 		setLayout(null);
@@ -100,12 +102,12 @@ public class Server extends JFrame implements ActionListener{
 		pl.add(status);
 		
 		//Adicionando segundo painel (corpo da aplicação)
-		a1 = new JPanel();
-		a1.setBounds(5, 75, 440, 520);
-		add(a1);
+		JPanel al = new JPanel();
+		al.setBounds(5, 75, 440, 520);
+		add(al);
 		
 		//Adicionando barra de texto
-		text = new JTextField();
+		JTextField text = new JTextField();
 		text.setBounds(5, 600, 310, 35);
 		text.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
 		add(text);
@@ -115,7 +117,6 @@ public class Server extends JFrame implements ActionListener{
 		send.setBounds(320, 600, 123, 35);
 		send.setBackground(new Color(7, 94, 84));
 		send.setForeground(Color.WHITE);
-		send.addActionListener(this);
 		send.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
 		add(send);
 		
@@ -129,16 +130,11 @@ public class Server extends JFrame implements ActionListener{
 		
 	}
 	
-	
-
-	
 	/*Recebe a ação do usuário, atualiza a interface e envia o texto digitado.*/
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	public void actionPerfomed(ActionEvent action) {
 		try {
-			
 			String out = text.getText();
+			
 			JPanel p2 = formatLabel(out); //criando um painel com base no texto recebido
 			
 			//layout do painel
@@ -146,52 +142,57 @@ public class Server extends JFrame implements ActionListener{
 			JPanel right = new JPanel(new BorderLayout());
 			right.add(p2, BorderLayout.LINE_END);
 	        vertical.add(right);
-	        vertical.add(Box.createVerticalStrut(15));	
+	        vertical.add(Box.createVerticalStrut(15));
 	        
-	        //adiciona o painel de texto ao painel body
 	        a1.add(vertical, BorderLayout.PAGE_START);
 
 	        //texto que é armazenado em out é enviado para o seu destino através do dout
-	        //dout.writeUTF(out);
+	        dout.writeUTF(out);
 
 	        //limpando o campo do texto
 	        text.setText("");
 
 	        //atualizando a interface gráfica
-	        repaint();
-	        invalidate();
-	        validate();   	
-		} catch (Exception e1) {
-			e1.printStackTrace();
+	        f.repaint();
+	        f.invalidate();
+	        f.validate();   	
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 	}
 	
-	//Formata o painel de texto (estilização, bordas, tamanhos, cores, etc...)
+	
 	public static JPanel formatLabel(String out) {
-		
+		// TODO Auto-generated method stub
 		JPanel panel = new JPanel();
+		//configurando o layout para o boxlayout na vertical
+		panel.setLayout(new BoxLayout(panel, Box.Layout.Y_AXIS));
 		
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+		//criação de um JLabel para exibir o texto
 		JLabel output = new JLabel("<html><p style=\"width: 150px\">"+out+"</p></html>");
-		output.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		output.setBackground(new Color(37, 211, 102));
+		//configurações do design
+		output.setFont(new Font("Tahoma", Font.PLAIN,16));
+		output.setBackground(new Color(37,211,102));
 		output.setOpaque(true);
-		output.setBorder(new EmptyBorder(15, 15, 15, 50));
+		output.setBorder(new EmptyBorder(15,15,15,50));
 		
+		//adicionando o JLabel ao JPanel
 		panel.add(output);
 		
-		//Adiciona o momento do envio da mensagem
+		//criação de um calendario para obter a hora atual
 		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+		//criação de um SimpleDateFormat para formatar a hora
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		
+		//exibindo a hora atual
 		JLabel time = new JLabel();
 		time.setText(sdf.format(cal.getTime()));
 		
+		//adição do JLabel com a hora do JPanel
 		panel.add(time);
 		
 		return panel;
+//		return null;
 	}
 
 	/**A main está sendo utilizada para instanciar o Servidor, que é uma aplicação/servico
@@ -201,10 +202,31 @@ public class Server extends JFrame implements ActionListener{
 		
 		new Server();
 		
+		try {
+			//responsavel por aceitar conexões de clientes
+			ServerSocket skt = new ServerSocket(6001);
+			//cada vez que um cliente se conecta, um socket é criado para a comunicação
+			while(true) {
+				Socket s = skt.accept();
+				DataInputStream din = new DataInputStream(s.getInputStream());
+				dout = new DataOutputStream(s.getOutputStream());
+				
+				while(true) {
+					//servidor ler a mensagem em UTF e transforma em JPanel
+					String msg = din.readUTF();
+					JPanel panel = formatLabel(msg);
+					//cria um novo panel/painel, coloca do lado esquerdo, adiciona o painel ao container
+					JPanel left = new JPanel(new BorderLayout());
+					left.add(panel, BorderLayout.LINE_START);
+					vertical.add(left);
+					//atualiza a interface
+					f.validate();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
-	
-
-	
 }
-
