@@ -1,17 +1,17 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class Server extends JFrame implements ActionListener{
+public class Server  implements ActionListener{
+	
 	JTextField text; //obter o texto que o usuário digitou
-    JPanel a1; //funciona como um conteiner que organizar a interface gráfica
+    static JPanel a1; //funciona como um conteiner que organizar a interface gráfica
     static JFrame f = new JFrame(); //definindo a janela principal
     static DataOutputStream dout;
     static Box vertical = Box.createVerticalBox();
@@ -22,14 +22,14 @@ public class Server extends JFrame implements ActionListener{
 
 	Server() {
 		
-		setLayout(null);
+		f.setLayout(null);
 		
 		//Adicionando primeiro painel (cabecalho da aplicação)
 		JPanel pl = new JPanel();
 		pl.setBackground(new Color(7, 94, 84));
 		pl.setBounds(0, 0, 450, 70);
 		pl.setLayout(null);
-		add(pl);
+		f.add(pl);
 		
 		//Primeira imagem
 		ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
@@ -102,39 +102,44 @@ public class Server extends JFrame implements ActionListener{
 		pl.add(status);
 		
 		//Adicionando segundo painel (corpo da aplicação)
-		JPanel al = new JPanel();
-		al.setBounds(5, 75, 440, 520);
-		add(al);
+		a1 = new JPanel();
+		a1.setBounds(5, 75, 440, 520);
+		f.add(a1);
 		
 		//Adicionando barra de texto
-		JTextField text = new JTextField();
+		text = new JTextField();
 		text.setBounds(5, 600, 310, 35);
 		text.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-		add(text);
+		f.add(text);
 		
 		//Adicionando botao de enviar
 		JButton send = new JButton("enviar");
 		send.setBounds(320, 600, 123, 35);
 		send.setBackground(new Color(7, 94, 84));
 		send.setForeground(Color.WHITE);
+		send.addActionListener(this);
 		send.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-		add(send);
+		f.add(send);
 		
 		
 		//Configurações de frame
-		setSize(450, 640);
-		setUndecorated(true);
-		setVisible(true);
-		setLocation(200, 50);
-		getContentPane().setBackground(Color.WHITE);
+		f.setSize(450, 640);
+		f.setUndecorated(true);
+		f.setVisible(true);
+		f.setLocation(200, 50);
+		f.getContentPane().setBackground(Color.WHITE);
 		
 	}
 	
+	
 	/*Recebe a ação do usuário, atualiza a interface e envia o texto digitado.*/
-	public void actionPerfomed(ActionEvent action) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 		try {
-			String out = text.getText();
 			
+			String out = text.getText();
 			JPanel p2 = formatLabel(out); //criando um painel com base no texto recebido
 			
 			//layout do painel
@@ -156,17 +161,20 @@ public class Server extends JFrame implements ActionListener{
 	        f.repaint();
 	        f.invalidate();
 	        f.validate();   	
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception err) {
+			err.printStackTrace();
 		}
+		
 	}
+	
+	/*Recebe a ação do usuário, atualiza a interface e envia o texto digitado.*/
 	
 	
 	public static JPanel formatLabel(String out) {
 		// TODO Auto-generated method stub
 		JPanel panel = new JPanel();
 		//configurando o layout para o boxlayout na vertical
-		panel.setLayout(new BoxLayout(panel, Box.Layout.Y_AXIS));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		//criação de um JLabel para exibir o texto
 		JLabel output = new JLabel("<html><p style=\"width: 150px\">"+out+"</p></html>");
@@ -223,11 +231,15 @@ public class Server extends JFrame implements ActionListener{
 					f.validate();
 				}
 			}
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
+
+	
+
 
 }
 

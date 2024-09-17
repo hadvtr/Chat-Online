@@ -1,15 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.Calendar;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.util.*;
 import java.text.*;
 
-public class Client extends JFrame implements ActionListener{
+public class Client implements ActionListener{
+	
 	JTextField text; //obter o texto que o usuário digitou
     static JPanel a1; //funciona como um conteiner que organizar a interface gráfica
     static JFrame f = new JFrame(); //definindo a janela principal
@@ -22,14 +22,14 @@ public class Client extends JFrame implements ActionListener{
 	
 	Client() {
 		
-		setLayout(null);
+		f.setLayout(null);
 		
 		//Adicionando primeiro painel (cabecalho da aplicação)
 		JPanel pl = new JPanel();
 		pl.setBackground(new Color(7, 94, 84));
 		pl.setBounds(0, 0, 450, 70);
 		pl.setLayout(null);
-		add(pl);
+		f.add(pl);
 		
 		//Primeira imagem
 		ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icons/3.png"));
@@ -104,13 +104,13 @@ public class Client extends JFrame implements ActionListener{
 		//Adicionando segundo painel (corpo da aplicação)
 		a1 = new JPanel();
 		a1.setBounds(5, 75, 440, 520);
-		add(a1);
+		f.add(a1);
 		
 		//Adicionando barra de texto
 		text = new JTextField();
 		text.setBounds(5, 600, 310, 35);
 		text.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-		add(text);
+		f.add(text);
 		
 		//Adicionando botao de enviar
 		JButton send = new JButton("enviar");
@@ -119,15 +119,15 @@ public class Client extends JFrame implements ActionListener{
 		send.setForeground(Color.WHITE);
 		send.addActionListener(this);
 		send.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
-		add(send);
+		f.add(send);
 		
 		
 		//Configurações de frame
-		setSize(450, 640);
-		setUndecorated(true);
-		setVisible(true);
-		setLocation(200, 50);
-		getContentPane().setBackground(Color.WHITE);
+		f.setSize(450, 640);
+		f.setUndecorated(true);
+		f.setVisible(true);
+		f.setLocation(200, 50);
+		f.getContentPane().setBackground(Color.WHITE);
 		
 	}
 	
@@ -154,15 +154,15 @@ public class Client extends JFrame implements ActionListener{
 	        a1.add(vertical, BorderLayout.PAGE_START);
 
 	        //texto que é armazenado em out é enviado para o seu destino através do dout
-	        //dout.writeUTF(out);
+	        dout.writeUTF(out);
 
 	        //limpando o campo do texto
 	        text.setText("");
 
 	        //atualizando a interface gráfica
-	        repaint();
-	        invalidate();
-	        validate();   	
+	        f.repaint();
+	        f.invalidate();
+	        f.validate();   	
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
