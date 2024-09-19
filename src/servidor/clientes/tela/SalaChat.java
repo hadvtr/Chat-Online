@@ -1,10 +1,13 @@
-package servidor.clientes.cliente;
+package servidor.clientes.tela;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import servidor.clientes.cliente.Cliente;
+import servidor.clientes.cliente.Leitor;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -107,13 +110,20 @@ public class SalaChat implements ActionListener {
         chatArea.setEditable(false); // Apenas leitura
         chatArea.setLineWrap(true);  // Ativa a quebra de linha
         chatArea.setWrapStyleWord(true);  // Quebra de linha respeitando as palavras
-        
+        chatArea.setFont(new Font("SAN_SERIF", Font.PLAIN, 16)); // Define um tamanho de fonte maior
+        chatArea.setMargin(new Insets(10, 10, 10, 10)); // Adiciona margens ao redor do texto
+
         // Instancia o leitor para receber mensagens do servidor
         new Thread(new Leitor(cliente.getSocket(), chatArea)).start();
 
         JScrollPane scrollPane = new JScrollPane(chatArea);
         a1.setLayout(new BorderLayout());
-        a1.add(scrollPane, BorderLayout.CENTER);
+        a1.add(scrollPane, BorderLayout.CENTER);  // Adiciona o scrollPane centralizado
+
+        JPanel painelMensagem = formatLabel(chatArea);
+        vertical.add(painelMensagem);
+        vertical.add(Box.createVerticalStrut(15));
+        //a1.add(vertical, BorderLayout.PAGE_START);
 
         // Campo de texto para envio de mensagens
         text = new JTextField();
@@ -147,14 +157,6 @@ public class SalaChat implements ActionListener {
         try {
             String mensagem = text.getText();
             if (!mensagem.isEmpty()) {
-                JPanel painelMensagem = formatLabel(mensagem);
-                
-                // Adiciona o painel de mensagem ao painel principal
-                vertical.add(painelMensagem);
-                vertical.add(Box.createVerticalStrut(15));
-               // a1.removeAll();
-               // a1.add(vertical, BorderLayout.PAGE_START);
-
                 // Envia a mensagem ao servidor
                 cliente.enviarMensagem(mensagem);
 
@@ -171,11 +173,11 @@ public class SalaChat implements ActionListener {
         }
     }
 
-    public static JPanel formatLabel(String mensagem) {
+    public static JPanel formatLabel(JTextArea chatArea2) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JLabel output = new JLabel("<html><p style=\"width: 150px\">" + mensagem + "</p></html>");
+        JLabel output = new JLabel("<html><p style=\"width: 150px\">" + chatArea2 + "</p></html>");
         output.setFont(new Font("Tahoma", Font.PLAIN, 16));
         output.setBackground(new Color(37, 211, 102));
         output.setOpaque(true);
@@ -195,4 +197,3 @@ public class SalaChat implements ActionListener {
         new SalaChat();
     }
 }
-

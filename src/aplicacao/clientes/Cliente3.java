@@ -1,8 +1,8 @@
 package aplicacao.clientes;
 
 import java.io.IOException;
+import servidor.clientes.tela.SalaChat;
 
-import servidor.clientes.cliente.SalaChat;
 
 public class Cliente3 {
 

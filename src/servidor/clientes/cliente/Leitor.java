@@ -43,7 +43,8 @@ public class Leitor implements Runnable {
                 // Atualize a interface gráfica na thread de eventos do Swing
                 SwingUtilities.invokeLater(() -> {
                 	if(chatArea != null) {
-                		chatArea.append(getMsg());
+                		chatArea.append(getMsg()+"\n");
+                		chatArea.setCaretPosition(chatArea.getDocument().getLength());
                 	}
                 });
             }
