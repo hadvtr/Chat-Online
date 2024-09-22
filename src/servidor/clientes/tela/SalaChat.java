@@ -32,7 +32,7 @@ public class SalaChat implements ActionListener {
 
         // Painel do cabeçalho
         JPanel pl = new JPanel();
-        pl.setBackground(new Color(7, 94, 84));
+        pl.setBackground(new Color(200, 162, 200));
         pl.setBounds(0, 0, 450, 70);
         pl.setLayout(null);
         f.add(pl);
@@ -103,8 +103,9 @@ public class SalaChat implements ActionListener {
          //Painel para exibir mensagens
         a1 = new JPanel();
         a1.setBounds(5, 75, 440, 520);
+        
         f.add(a1);
-
+		
         // Área de texto para mensagens
         chatArea = new JTextArea();
         chatArea.setEditable(false); // Apenas leitura
@@ -135,7 +136,7 @@ public class SalaChat implements ActionListener {
         // Botão de enviar
         JButton send = new JButton("Enviar");
         send.setBounds(320, 600, 123, 35);
-        send.setBackground(new Color(7, 94, 84));
+        send.setBackground(new Color(200, 162, 200));
         send.setForeground(Color.WHITE);
         send.addActionListener(this);
         send.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
@@ -179,7 +180,7 @@ public class SalaChat implements ActionListener {
 
         JLabel output = new JLabel("<html><p style=\"width: 150px\">" + chatArea2 + "</p></html>");
         output.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        output.setBackground(new Color(37, 211, 102));
+        output.setBackground(new Color(230, 200, 250));
         output.setOpaque(true);
         output.setBorder(new EmptyBorder(15, 15, 15, 50));
 
