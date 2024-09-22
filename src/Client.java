@@ -26,7 +26,7 @@ public class Client implements ActionListener{
 		
 		//Adicionando primeiro painel (cabecalho da aplicação)
 		JPanel pl = new JPanel();
-		pl.setBackground(new Color(7, 94, 84));
+		pl.setBackground(new Color(200, 162, 200));
 		pl.setBounds(0, 0, 450, 70);
 		pl.setLayout(null);
 		f.add(pl);
@@ -57,35 +57,6 @@ public class Client implements ActionListener{
 		profile.setBounds(40, 10, 50, 50);
 		pl.add(profile);
 		
-		
-		//Terceira Imagem
-		ImageIcon i7 = new ImageIcon(ClassLoader.getSystemResource("icons/video.png"));
-		Image i8 = i7.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
-		ImageIcon i9 = new ImageIcon(i8);
-				
-		JLabel video = new JLabel(i9);
-		video.setBounds(300, 20, 30, 30);
-		pl.add(video);
-				
-		//Quarta Imagem
-		ImageIcon i10 = new ImageIcon(ClassLoader.getSystemResource("icons/phone.png"));
-		Image i11 = i10.getImage().getScaledInstance(35, 30, Image.SCALE_DEFAULT);
-		ImageIcon i12 = new ImageIcon(i11);
-				
-		JLabel phone = new JLabel(i12);
-		phone.setBounds(360, 20, 35, 30);
-		pl.add(phone);
-		
-		
-		//Quinta Imagem
-		ImageIcon i13 = new ImageIcon(ClassLoader.getSystemResource("icons/3icon.png"));
-		Image i14 = i13.getImage().getScaledInstance(10, 25, Image.SCALE_DEFAULT);
-		ImageIcon i15 = new ImageIcon(i14);
-						
-		JLabel morevert = new JLabel(i15);
-		morevert.setBounds(420, 20, 10, 25);
-		pl.add(morevert);
-		
 		//Adicionando nome do usuario ao painel
 		JLabel name = new JLabel("Hadassa");
 		name.setBounds(110, 15, 100, 18);
@@ -115,7 +86,7 @@ public class Client implements ActionListener{
 		//Adicionando botao de enviar
 		JButton send = new JButton("enviar");
 		send.setBounds(320, 600, 123, 35);
-		send.setBackground(new Color(7, 94, 84));
+		send.setBackground(new Color(200, 162, 200));
 		send.setForeground(Color.WHITE);
 		send.addActionListener(this);
 		send.setFont(new Font("SAN_SERIF", Font.PLAIN, 16));
@@ -178,7 +149,7 @@ public class Client implements ActionListener{
 		
 		JLabel output = new JLabel("<html><p style=\"width: 150px\">"+out+"</p></html>");
 		output.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		output.setBackground(new Color(37, 211, 102));
+		output.setBackground(new Color(230, 200, 250));
 		output.setOpaque(true);
 		output.setBorder(new EmptyBorder(15, 15, 15, 50));
 		
